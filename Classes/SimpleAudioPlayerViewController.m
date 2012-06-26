@@ -209,57 +209,7 @@ void simpleRouteChangeHandler (
 //END:code.SimpleAudioPlayer.SimpleAudioPlayerViewController.setlevelmeters
 }
 
-
-/* this simpler viewDidLoad is cited in the book before we add session and metadata code
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	
-	minutesSecondsFormatter = [[SimpleMinutesSecondsFormatter alloc] init];
-	
-	[self setupAudioSession];
-	
-//START:code.SimpleAudioPlayer.SimpleAudioPlayerViewController.simplesetupaudioplayer
-	@try { //<label id="code.SimpleAudioPlayer.SimpleAudioPlayerViewController.simplesetupaudioplayer.try"/>
-		NSString *audioFilePath =
-			[[NSBundle mainBundle] pathForResource:@"audio" ofType: @"mp3"];
-		if (! audioFilePath)
-			[NSException raise:@"No audio path" //<label id="code.SimpleAudioPlayer.SimpleAudioPlayerViewController.simplesetupaudioplayer.nopathexception"/>
-					format:@"No path to audio file"];
-		songNameLabel.text = [audioFilePath lastPathComponent];
-		NSURL *audioFileURL = [NSURL fileURLWithPath: audioFilePath];
-		NSError *audioPlayerError = nil;
-		audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioFileURL
-			error:&audioPlayerError];
-		if (! audioPlayer)
-			[NSException raise:@"No player"
-					format:@"Couldn't create audio player: %@",
-					[audioPlayerError localizedDescription]];
-		[audioPlayer prepareToPlay];		
-	}
-	@catch (NSException* exception) { //<label id="code.SimpleAudioPlayer.SimpleAudioPlayerViewController.simplesetupaudioplayer.catch"/>
-		NSLog (@"exception: %@", exception);
-		playPauseButton.enabled = NO;
-		UIAlertView *cantPlayAlert =
-		[[UIAlertView alloc] initWithTitle:@"Cannot Play:"
-				message:[exception reason]
-				delegate:nil
-				cancelButtonTitle:@"OK"
-				otherButtonTitles:nil];
-		[cantPlayAlert show];
-		[cantPlayAlert release];
-	}
-//END:code.SimpleAudioPlayer.SimpleAudioPlayerViewController.simplesetupaudioplayer
-	
-	// set up display updater
-	NSInvocation *updateAudioDisplayInvocation =
-	[NSInvocation invocationWithMethodSignature:
-		[self methodSignatureForSelector: @selector (updateAudioDisplay)]];
-	[updateAudioDisplayInvocation setSelector: @selector (updateAudioDisplay)];
-	[updateAudioDisplayInvocation setTarget: self];
-	audioDisplayUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.05
-														   invocation:updateAudioDisplayInvocation repeats:YES];
-}
- */
+ 
 
 
 /*
@@ -273,7 +223,7 @@ void simpleRouteChangeHandler (
 	[self setupAudioSession];
 
 	@try {
-		NSString *audioFilePath = [[NSBundle mainBundle] pathForResource:@"audio"
+		NSString *audioFilePath = [[NSBundle mainBundle] pathForResource:@"春天里"
 																  ofType: @"mp3"];
 
 		if (! audioFilePath)
@@ -396,10 +346,17 @@ void simpleRouteChangeHandler (
 	AudioSessionSetActive (false);
 	playPauseButton.selected = NO;
 }
+-(void) stopPlaying{
+    
+    [audioPlayer stop];
+    playPauseButton.selected = NO;
+    AudioSessionSetActive (false);
+
+}
 
 -(IBAction) handlePlayPauseTapped: (id) sender {
 	if (audioPlayer.playing) {
-		[self pausePlaying];
+		[self stopPlaying];
 	} else {
 		[self startPlaying];
 	}

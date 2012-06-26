@@ -30,6 +30,8 @@
 		peakColor = [UIColor redColor].CGColor;
 		peakRect.size.width=2;
 		peakRect.origin.y = 0;
+        
+        UITableViewCell  *c;
 	}
 	return self;
 }
